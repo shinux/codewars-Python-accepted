@@ -23,6 +23,12 @@ If the list or array is empty, minDot should return 0. All arrays or lists will 
 Note: This kata is inspired by GCJ 2008.
 """
 
+"""
+best answer, 我觉得我想复杂了, 区分了正负数
+def min_dot(a, b):
+    return sum(x * y for (x, y) in zip(sorted(a), sorted(b, reverse = True)))
+"""
+
 def min_dot(a, b):
     if not a or not b:
         return 0
