@@ -32,6 +32,7 @@ The timestamp method will return a date/time object from the timestamp of the Mo
 
 When you will implement this correctly, you will not only get some points, but also would be able to check creation time of all the kata here :-)
 """
+
 from datetime import datetime
 
 class Mongo(object):
@@ -41,26 +42,26 @@ class Mongo(object):
         """returns True if s is a valid MongoID; otherwise False"""
         if not isinstance(s, str):
             return False
-        if s.isupper():
+        elif s.isupper():
             return False
-        if len(s) != 24:
+        elif len(s) != 24: return False
+        elif all(c in '0123456789abcdef' for c in s):
+            return True
+        else:
             return False
-        try:
-            int(s, 16)
-        except ValueError:
-            return False
-        return True
 
     @classmethod
     def get_timestamp(cls, s):
         """if s is a MongoID, returns a datetime object for the timestamp; otherwise False"""
-        if Mongo.is_valid(s):
-            return datetime.fromtimestamp(int(s[:8], 16))
+        if cls.is_valid(s):
+            return datetime.fromtimestamp(int(s[:8], base=16))
         else:
             return False
-
 
 if __name__ == '__main__':
     print(Mongo.is_valid('507f1f77bcf86cd79943901'))
     print(Mongo.is_valid('507f1f77bcf86cd799439016'))
     print(Mongo.get_timestamp('507f1f77bcf86cd799439016'))
+    print(Mongo.is_valid('52fefe6cb0091856db00030e'))
+    print(Mongo.get_timestamp('52fefe6cb0091856db00030e'))
+
